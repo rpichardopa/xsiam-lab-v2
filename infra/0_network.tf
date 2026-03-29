@@ -3,7 +3,7 @@
 module "vpc" {
   source = "./modules/vpc"
 
-  for_each = var.vpcs
+  for_each = local.vpcs
 
   name                             = "${var.name_prefix}${each.value.name}"
   cidr_block                       = each.value.cidr
@@ -20,7 +20,7 @@ module "vpc" {
 
 locals {
   # Flatten the VPCs and their subnets into a list of maps, each containing the VPC name, subnet name, and subnet details.
-  subnets_in_vpcs = flatten([for vk, vv in var.vpcs : [for sk, sv in vv.subnets :
+  subnets_in_vpcs = flatten([for vk, vv in local.vpcs : [for sk, sv in vv.subnets :
     {
       cidr                    = sk
       ipv6_cidr               = try(cidrsubnet(module.vpc[vk].vpc.ipv6_cidr_block, 8, sv.ipv6_index), null)
@@ -106,7 +106,7 @@ locals {
   # Value of `to_cidr` is the CIDR of the destination.
 
   vpc_routes_with_next_hop_map = flatten(concat([
-    for vk, vv in var.vpcs : [
+    for vk, vv in local.vpcs : [
       for rk, rv in vv.routes : {
         vpc              = rv.vpc
         subnet           = rv.subnet_group
