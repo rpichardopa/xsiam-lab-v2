@@ -157,7 +157,7 @@ variable "mgt_public_ips" {
 variable "vpc_name" {
   description = ""
   type        = string
-  default     = "security-vpc"
+  default     = "security_vpc"
 }
 
 

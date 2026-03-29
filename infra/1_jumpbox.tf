@@ -26,22 +26,15 @@ data "aws_subnets" "mgmt" {
   }
 }
 
-data "aws_security_group" "vm_series" {
-  filter {
-    name   = "tag:Name"
-    values = ["vmseries_mgmt"]
-  }
-}
-
 resource "aws_instance" "jumpbox" {
   for_each = local.jumpbox
 
   ami                    = each.value.ami
   instance_type          = each.value.type
   key_name               = var.ssh_key_name
-  vpc_security_group_ids = try([module.vpc[var.vpc_name].security_group_ids["vmseries_mgmt"]],[])
+  vpc_security_group_ids = try([module.vpc[var.vpc_name].security_group_ids["vmseries_mgmt"].id], [])
   ebs_optimized          = true
-  subnet_id              = data.aws_subnets.mgmt.ids[0]
+  subnet_id              = module.subnet_sets["security_vpc-mgmt"].aws_subnet.this["${var.region}${var.az}"].id
   lifecycle {
     ignore_changes = [ami]
   }
