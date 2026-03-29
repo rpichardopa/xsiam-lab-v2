@@ -51,3 +51,43 @@
 #   ssh_key_name         = var.ssh_key_name
 #   tags                 = var.global_tags
 # }
+
+# ### IAM ROLES AND POLICIES ###
+
+# data "aws_caller_identity" "this" {}
+
+# data "aws_partition" "this" {}
+
+# resource "aws_iam_role_policy" "this" {
+#   for_each = { for vmseries in local.vmseries_instances : "${vmseries.group}-${vmseries.instance}" => vmseries }
+#   role     = module.bootstrap[each.key].iam_role_name
+#   policy   = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Action": [
+#         "cloudwatch:PutMetricData",
+#         "cloudwatch:GetMetricData",
+#         "cloudwatch:ListMetrics"
+#       ],
+#       "Resource": [
+#         "*"
+#       ],
+#       "Effect": "Allow"
+#     },
+#     {
+#       "Action": [
+#         "cloudwatch:PutMetricAlarm",
+#         "cloudwatch:DescribeAlarms"
+#       ],
+#       "Resource": [
+#         "arn:${data.aws_partition.this.partition}:cloudwatch:${var.region}:${data.aws_caller_identity.this.account_id}:alarm:*"
+#       ],
+#       "Effect": "Allow"
+#     }
+#   ]
+# }
+
+# EOF
+# }
