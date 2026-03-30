@@ -362,120 +362,122 @@ variable "vmseries" {
 ## Locals
 
 locals {
-  vmseries = {
-    instances = {
-      "01" = { az = "${var.region}${var.az}" }
-    }
-
-    bootstrap_options = {
-      mgmt-interface-swap         = "disable"
-      panorama-server             = ""
-      tplname                     = ""
-      dgname                      = ""
-      plugin-op-commands          = "aws-gwlb-inspect:enable,aws-gwlb-overlay-routing:enable"
-      dhcp-send-hostname          = "no"
-      dhcp-send-client-id         = "no"
-      dhcp-accept-server-hostname = "no"
-      dhcp-accept-server-domain   = "no"
-    }
-
-    panos_version = "${var.panos_version}"
-    ebs_kms_id    = "alias/aws/ebs"
-
-    vpc = var.vpc_name
-
-    interfaces = {
-      mgmt = {
-        device_index = 0
-        private_ip = {
-          "01" = "${local.cidr_prefix}.0.4"
-        }
-        security_group     = "vmseries_mgmt"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-mgmt"
-        ipv6_address_count = 0
-        create_public_ip   = false
-        source_dest_check  = true
-        eip_allocation_id = {
-          "01" = null
-        }
+  vmseries {
+    vmseries = {
+      instances = {
+        "01" = { az = "${var.region}${var.az}" }
       }
 
-      public = {
-        device_index = 1
-        private_ip = {
-          "01" = "${local.cidr_prefix}.5.4"
-        }
-        security_group     = "vmseries_traffic"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-public"
-        ipv6_address_count = 0
-        create_public_ip   = true
-        source_dest_check  = true
-        eip_allocation_id = {
-          "01" = null
-        }
+      bootstrap_options = {
+        mgmt-interface-swap         = "disable"
+        panorama-server             = ""
+        tplname                     = ""
+        dgname                      = ""
+        plugin-op-commands          = "aws-gwlb-inspect:enable,aws-gwlb-overlay-routing:enable"
+        dhcp-send-hostname          = "no"
+        dhcp-send-client-id         = "no"
+        dhcp-accept-server-hostname = "no"
+        dhcp-accept-server-domain   = "no"
       }
 
-      vlan1 = {
-        device_index = 2
-        private_ip = {
-          "01" = "${local.cidr_prefix}.1.4"
-        }
-        security_group     = "vmseries_traffic"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-vlan1"
-        ipv6_address_count = 0
-        create_public_ip   = false
-        source_dest_check  = false
-        eip_allocation_id = {
-          "01" = null
-        }
-      }
+      panos_version = "${var.panos_version}"
+      ebs_kms_id    = "alias/aws/ebs"
 
-      vlan2 = {
-        device_index = 3
-        private_ip = {
-          "01" = "${local.cidr_prefix}.2.4"
+      vpc = var.vpc_name
+
+      interfaces = {
+        mgmt = {
+          device_index = 0
+          private_ip = {
+            "01" = "${local.cidr_prefix}.0.4"
+          }
+          security_group     = "vmseries_mgmt"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-mgmt"
+          ipv6_address_count = 0
+          create_public_ip   = false
+          source_dest_check  = true
+          eip_allocation_id = {
+            "01" = null
+          }
         }
-        security_group     = "vmseries_traffic"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-vlan2"
-        ipv6_address_count = 0
-        create_public_ip   = false
-        source_dest_check  = false
-        eip_allocation_id = {
-          "01" = null
+
+        public = {
+          device_index = 1
+          private_ip = {
+            "01" = "${local.cidr_prefix}.5.4"
+          }
+          security_group     = "vmseries_traffic"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-public"
+          ipv6_address_count = 0
+          create_public_ip   = true
+          source_dest_check  = true
+          eip_allocation_id = {
+            "01" = null
+          }
         }
-      }
-      vlan3 = {
-        device_index = 4
-        private_ip = {
-          "01" = "${local.cidr_prefix}.3.4"
+
+        vlan1 = {
+          device_index = 2
+          private_ip = {
+            "01" = "${local.cidr_prefix}.1.4"
+          }
+          security_group     = "vmseries_traffic"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-vlan1"
+          ipv6_address_count = 0
+          create_public_ip   = false
+          source_dest_check  = false
+          eip_allocation_id = {
+            "01" = null
+          }
         }
-        security_group     = "vmseries_traffic"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-vlan3"
-        ipv6_address_count = 0
-        create_public_ip   = false
-        source_dest_check  = false
-        eip_allocation_id = {
-          "01" = null
+
+        vlan2 = {
+          device_index = 3
+          private_ip = {
+            "01" = "${local.cidr_prefix}.2.4"
+          }
+          security_group     = "vmseries_traffic"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-vlan2"
+          ipv6_address_count = 0
+          create_public_ip   = false
+          source_dest_check  = false
+          eip_allocation_id = {
+            "01" = null
+          }
         }
-      }
-      vlan4 = {
-        device_index = 5
-        private_ip = {
-          "01" = "${local.cidr_prefix}.4.4"
+        vlan3 = {
+          device_index = 4
+          private_ip = {
+            "01" = "${local.cidr_prefix}.3.4"
+          }
+          security_group     = "vmseries_traffic"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-vlan3"
+          ipv6_address_count = 0
+          create_public_ip   = false
+          source_dest_check  = false
+          eip_allocation_id = {
+            "01" = null
+          }
         }
-        security_group     = "vmseries_traffic"
-        vpc                = var.vpc_name
-        subnet_group       = "${var.name_prefix}-vlan4"
-        ipv6_address_count = 0
-        create_public_ip   = false
-        source_dest_check  = false
-        eip_allocation_id = {
-          "01" = null
+        vlan4 = {
+          device_index = 5
+          private_ip = {
+            "01" = "${local.cidr_prefix}.4.4"
+          }
+          security_group     = "vmseries_traffic"
+          vpc                = var.vpc_name
+          subnet_group       = "${var.name_prefix}-vlan4"
+          ipv6_address_count = 0
+          create_public_ip   = false
+          source_dest_check  = false
+          eip_allocation_id = {
+            "01" = null
+          }
         }
       }
     }
