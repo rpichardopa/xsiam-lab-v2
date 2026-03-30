@@ -29,6 +29,10 @@
 #   value       = { for k, v in module.vmseries : k => v.public_ips }
 # }
 
+output "subnets" {
+  value = module.subnet_sets
+}
+
 output "broker_vm_bucket_name" {
   value = var.broker_vm ? module.broker_vm[0].broker_vm_bucket_name : null
 }
