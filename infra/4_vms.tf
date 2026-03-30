@@ -28,9 +28,9 @@ locals {
 }
 
 
-resource "aws_instance" "xsiam_components" {
+resource "aws_instance" "vms" {
   for_each = {
-    for k, v in local.xsiam_components :
+    for k, v in local.vms :
     k => v if v.deploy && v.ami != null
   }
 
@@ -51,6 +51,10 @@ resource "aws_instance" "xsiam_components" {
     volume_size           = each.value.volume
     delete_on_termination = true
     encrypted             = true
+  }
+
+  lifecycle {
+    ignore_changes = [each.value.ami]
   }
 
   tags = merge(
