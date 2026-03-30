@@ -235,12 +235,12 @@ locals {
       }
 
       subnets = {
-        "${local.cidr_prefix}.0.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-mgmt", nacl = null, ipv6_index = null }
-        "${local.cidr_prefix}.1.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-vlan1", nacl = null, ipv6_index = null }
-        "${local.cidr_prefix}.2.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-vlan2", nacl = null, ipv6_index = null }
-        "${local.cidr_prefix}.3.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-vlan3", nacl = null, ipv6_index = null }
-        "${local.cidr_prefix}.4.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-vlan4", nacl = null, ipv6_index = null }
-        "${local.cidr_prefix}.5.0/24" = { az = "${var.region}${var.az}", subnet_group = "${name_prefix}-public", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.0.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-mgmt", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.1.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-vlan1", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.2.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-vlan2", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.3.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-vlan3", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.4.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-vlan4", nacl = null, ipv6_index = null }
+        "${local.cidr_prefix}.5.0/24" = { az = "${var.region}${var.az}", subnet_group = "${var.name_prefix}-public", nacl = null, ipv6_index = null }
       }
 
       routes = {
