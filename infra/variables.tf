@@ -246,7 +246,7 @@ locals {
       routes = {
         mgmt_default = {
           vpc              = var.vpc_name
-          subnet_group     = "${name_prefix}-mgmt"
+          subnet_group     = "${var.name_prefix}-mgmt"
           to_cidr          = "0.0.0.0/0"
           destination_type = "ipv4"
           next_hop_key     = var.vpc_name
