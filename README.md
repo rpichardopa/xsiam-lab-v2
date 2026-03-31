@@ -136,9 +136,9 @@ Follow these steps to deploy the Broker VM:
 
 ### Step 1 — Download VMDK
 
-Download the Broker VM `.vmdk` file from your XSIAM tenant.
+- Download the Broker VM `.vmdk` file from your XSIAM tenant.
 
-Place the file inside the `infra/` directory.
+- Place the file inside the `infra/` directory.
 
 ---
 
@@ -163,12 +163,12 @@ Terraform will:
 
 After execution, Terraform outputs will include AWS CLI commands. Run them locally to:
 
-Upload the VMDK
-Import it as an AMI
+- Upload the VMDK
+- Import it as an AMI
 
 ### Step 5 — Verify AMI
-Go to EC2 → AMIs
-Validate the image is available
+- Go to EC2 → AMIs
+- Validate the image is available
 
 ### Broker VM Documentation
 
@@ -176,7 +176,7 @@ Validate the image is available
 
 ## Security
 
-Do not commit .pem files
-Do not hardcode credentials
-Prefer IAM roles over static keys
-Rotate credentials regularly
+- Do not commit .pem files
+- Do not hardcode credentials
+- Prefer IAM roles over static keys
+- Rotate credentials regularly
