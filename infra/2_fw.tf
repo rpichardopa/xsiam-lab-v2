@@ -111,19 +111,27 @@ locals {
     if !strcontains(k, "mgmt")
   ]
 
-  # fw_default_routes = merge([
-  #   for fw_name, eni_map in local.fw_interfaces : merge([
-  #     for rt_name, rt_data in local.fw_route_tables : {
-  #       for az, rt_id in rt_data.unique_route_table_ids :
-  #       "${fw_name}-${rt_name}-${az}" => {
-  #         route_table_id = rt_id
-  #         target_type    = can(regex("public", rt_name)) ? "igw" : "eni"
-  #         target_id      = can(regex("public", rt_name)) ? module.vpc[var.vpc_name].igw_id : eni_map[regex("(public|vlan[0-9]+)", rt_name)]
-  #       }
-  #       if !can(regex("mgmt", rt_name))
-  #     }
-  #   ]...)
-  # ]...)
+  fw_default_routes = {
+    for item in flatten([
+      for fw_name, eni_map in local.fw_interfaces : [
+        for rt in local.fw_route_tables : [
+          for az, rt_id in rt.unique_route_table_ids : {
+            key            = "${fw_name}-${az}-${rt_id}"
+            route_table_id = rt_id
+            subnet_name    = rt.subnet_names[az]
+
+            target_type = strcontains(rt.subnet_names[az], "public") ? "igw" : "eni"
+            target_id = strcontains(rt.subnet_names[az], "public") ? module.vpc[var.vpc_name].igw_id : (
+              strcontains(rt.subnet_names[az], "vlan1") ? eni_map["vlan1"] :
+              strcontains(rt.subnet_names[az], "vlan2") ? eni_map["vlan2"] :
+              null
+            )
+          }
+        ]
+      ]
+    ]) : item.key => item
+    if item.target_id != null
+  }
 }
 
 # resource "aws_route" "fw_default" {
