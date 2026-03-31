@@ -121,7 +121,7 @@ locals {
             subnet_name    = rt.subnet_names[az]
 
             target_type = strcontains(rt.subnet_names[az], "public") ? "igw" : "eni"
-            target_id = strcontains(rt.subnet_names[az], "public") ? module.vpc[var.vpc_name].igw_id : (
+            target_id = strcontains(rt.subnet_names[az], "public") ? try(module.vpc[rv.next_hop_key].igw_as_next_hop_set, null) : (
               strcontains(rt.subnet_names[az], "vlan1") ? eni_map["vlan1"] :
               strcontains(rt.subnet_names[az], "vlan2") ? eni_map["vlan2"] :
               null
