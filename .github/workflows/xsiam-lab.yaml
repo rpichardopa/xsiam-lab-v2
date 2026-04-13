@@ -33,8 +33,8 @@ jobs:
           region = "${{ env.AWS_REGION }}"
           name_prefix = "${{ vars.DEPLOYMENT_NAME }}"
           ssh_key_name = "${{ vars.SSH_KEY_NAME }}"
-          global_tags = "${{ vars.GLOBAL_TAGS }}"
-          mgt_public_ips = "${{ vars.MGT_PUBLIC_IP }}"
+          global_tags = ${{ vars.GLOBAL_TAGS }}
+          mgt_public_ips = ${{ vars.MGT_PUBLIC_IP }}
           EOF
       - name: Terraform Deployment
         id: init
