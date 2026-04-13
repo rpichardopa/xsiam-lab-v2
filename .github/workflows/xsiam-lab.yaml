@@ -21,7 +21,6 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       S3_BACKEND: ${{ vars.S3_BACKEND }}
-      AUTHCODES: ${{ vars.AUTHCODES }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -30,8 +29,12 @@ jobs:
         run: |
           echo "" >> terraform.tfvars
           cat >> terraform.tfvars <<EOF
-          authcodes = "${{ env.AUTHCODES }}"
+          authcodes = "${{ vars.AUTHCODES }}"
           region = "${{ env.AWS_REGION }}"
+          name_prefix = "${{ vars.DEPLOYMENT_NAME }}"
+          ssh_key_name = "${{ vars.SSH_KEY_NAME }}"
+          global_tags = "${{ vars.GLOBAL_TAGS }}"
+          mgt_public_ips = "${{ vars.MGT_PUBLIC_IP }}"
           EOF
       - name: Terraform Deployment
         id: init

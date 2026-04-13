@@ -93,48 +93,7 @@ resource "aws_iam_role_policy" "this" {
 EOF
 }
 
-### ROUTES ###
-
-# locals {
-#   fw_interfaces = {
-#     for k, v in {
-#       for k2, v2 in module.vmseries :
-#       k2 => v2.interfaces
-#     } :
-#     k => {
-#       for iface_key, iface in v :
-#       iface_key => iface.id
-#       if strcontains(iface_key, "vlan")
-#     }
-#   }
-
-#   fw_route_tables = [
-#     for k, v in module.subnet_sets :
-#     v
-#     if strcontains(k, "vlan")
-#   ]
-
-#   fw_default_routes = merge([
-#     for fw_name, eni_map in local.fw_interfaces : merge([
-#       for rt_data in local.fw_route_tables : {
-#         for az, rt_id in rt_data.unique_route_table_ids :
-#         "${fw_name}-${rt_data.subnet_names[az]}-${az}" => {
-#           route_table_id = rt_id
-#           eni_id         = eni_map[regex("vlan[0-9]+", rt_data.subnet_names[az])]
-#         }
-#         if can(eni_map[regex("vlan[0-9]+", rt_data.subnet_names[az])])
-#       }
-#     ]...)
-#   ]...)
-# }
-
-# resource "aws_route" "fw_default" {
-#   for_each = local.fw_default_routes
-
-#   route_table_id         = each.value.route_table_id
-#   destination_cidr_block = "0.0.0.0/0"
-#   network_interface_id   = each.value.eni_id
-# }
+### Firewall VLANs ROUTES ###
 
 locals {
   fw_default_routes_list = flatten([

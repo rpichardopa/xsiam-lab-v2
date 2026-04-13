@@ -48,6 +48,8 @@ Once you have the AWS account, you must manually create and configure:
 - S3 Bucket for Terraform Backend (`S3_BACKEND`)
 - AWS Access Key / AWS Secret Access Key
 - Configure AWS CLI (optional)
+- Accept EULA for Palo Alto Networks VM-Series: [AWS Marketplace EULA Palo Alto Networks](https://aws.amazon.com/marketplace/pp?sku=6njl1pau431dv1qxipg63mvah)
+- Accept EULA for Kali Linux (if apply): [AWS Marketplace EULA Kali Linux](https://aws.amazon.com/marketplace/pp?sku=7lgvy7mt78lgoi4lant0znp5h)
 
 You will also need a GitHub account and fork this repository.
 
@@ -57,25 +59,24 @@ Then go to:
 
 Create the following:
 
-**Secrets**
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `CORTEX_API_KEY`
-- `CORTEX_API_KEY_ID`
+**GitHub Secrets**
+| Variable | Description | Example / Allowed Values |
+|----------|-------------|--------------------------|
+| `AWS_ACCESS_KEY_ID` | AWS Access Key | `****` |
+| `AWS_SECRET_ACCESS_KEY` | AWS Accress Secret Key | `****` |
+| `CORTEX_API_KEY` | Cortex API Key | `****` |
+| `CORTEX_API_KEY_ID` | Cortex API Key ID | `****` |
 
-**Variables**
-- `AWS_REGION`
-- `S3_BACKEND`
+**GitHub Variables**
 
-### Palo Alto VM-Series
-
-### Palo Alto VM-Series
-
-You will need an **AuthCode** for VM-Series on your CSP.
-
-Navigate to [`infra/files/license/authcodes`](https://github.com/davidaavilar/xsiam-lab-v2/blob/main/infra/files/license/authcodes)
-
-Paste your AuthCode in that location before deployment.
+| Variable | Description | Example / Allowed Values |
+|----------|-------------|--------------------------|
+| `AWS_REGION` | AWS region where resources will be deployed | `us-east-2` |
+| `DEPLOYMENT_NAME` | Prefix used for naming all resources | `davila-xsiam-lab` |
+| `AUTHCODES` | Authcode for VM-Series Licensing from Customer Support Portal | `D681112X` |
+| `GLOBAL_TAGS` | Resource tag for application name | `{ ManagedBy = "terraform", Application = "XSIAM Lab", Owner = "David Avila" }` |
+| `SSH_KEY_NAME` | SSH key pair name for EC2 access | `xsiam-lab-v2` |
+| `MGT_PUBLIC_IP` | Allowed public IPs for management access | `["YOUR PUBLIC IP ADDRESS"]` |
 
 ---
 
@@ -111,14 +112,7 @@ Defined in **infra/terraform.tfvars**, you need to update the following values:
 
 | Variable | Description | Example / Allowed Values |
 |----------|-------------|--------------------------|
-| `region` | AWS region where resources will be deployed | `us-east-2` |
-| `name_prefix` | Prefix used for naming all resources | `davila-xsiam-lab` |
-| `global_tags.ManagedBy` | Resource tag indicating management tool | `terraform` |
-| `global_tags.Application` | Resource tag for application name | `XSIAM Lab` |
-| `global_tags.Owner` | Resource tag for owner | `David Avila` |
-| `ssh_key_name` | SSH key pair name for EC2 access | `xsiam-lab-v2` |
 | `cidr` | CIDR block for the VPC | `10.10.0.0/16` |
-| `mgt_public_ips` | Allowed public IPs for management access | `["YOUR PUBLIC IP ADDRESS"]` |
 | `broker_vm` | Deploy Broker VM | `true / false` |
 | `broker_vm_key` | VMDK file name for Broker VM | `"file.vmdk"` |
 | `broker_vm_subnet` | Subnet for Broker VM | `vlan1 / vlan2` |
