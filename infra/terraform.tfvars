@@ -1,6 +1,6 @@
 ## FW
 
-create_public_ip_mgmt = false # Change to true first time. After FW successful boot, modify it to false
+create_public_ip_mgmt = true # Change to true first time. After FW successful boot, modify it to false
 
 ### VPC
 cidr           = "10.10.0.0/16"
@@ -16,6 +16,6 @@ engine_vm_subnet = "vlan1" # allowed values vlan1, vlan2. vlan1 by default
 
 ### Deploy VMs
 
-linux_deploy          = false
-windows_server_deploy = false
-kali_deploy           = false
+linux_deploy          = true
+windows_server_deploy = true
+kali_deploy           = true
