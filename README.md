@@ -44,8 +44,8 @@ An AWS account with permissions to create:
 
 Once you have the AWS account, you must manually create and configure:
 
-- EC2 Key Pair (download the private key)
-- S3 Bucket for Terraform Backend (`S3_BACKEND`)
+- EC2 Key Pair (download the private key) (`SSH_KEY_NAME`)
+- S3 Bucket for Terraform Backend (`S3_BACKEND`) - example name `<your-name>-xsiam-lab-tf-state`
 - AWS Access Key / AWS Secret Access Key
 - Configure AWS CLI (optional)
 - Accept EULA for Palo Alto Networks VM-Series: [AWS Marketplace EULA Palo Alto Networks](https://aws.amazon.com/marketplace/pp?sku=6njl1pau431dv1qxipg63mvah)

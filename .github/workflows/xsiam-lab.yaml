@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - name: Write authcodes to tfvars
+      - name: Write variables to tfvars
         working-directory: ${{ env.working-directory }}
         run: |
           echo "" >> terraform.tfvars
