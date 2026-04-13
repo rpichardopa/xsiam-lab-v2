@@ -14,6 +14,16 @@
 #   description = "modify vim ~/.ssh/config"
 # }
 
+output "jumpbox_access" {
+  value = {
+    for name, inst in aws_instance.jumpbox :
+    name => {
+      public_ip  = aws_eip.jumpbox[name].public_ip
+      private_ip = inst.private_ip
+      user       = local.jumpbox[name].user
+    }
+  }
+}
 
 # # FWS
 
